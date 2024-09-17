@@ -1,9 +1,37 @@
+import {
+  GithubAuthProvider,
+  GoogleAuthProvider,
+} from "firebase/auth/web-extension";
+import { useAuthContext } from "../../providers/AuthProvider";
+import { GithubLoginButton, GoogleLoginButton } from "./components";
+import { Button } from "@headlessui/react";
+import { useHome } from "./hooks";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
-  return (
+  const { t } = useTranslation("home")
+  const { userIsLogged } = useAuthContext();
+  const { onCreateGame, onLogin, onLogout } = useHome()
 
+  return (
     <div className="flex flex-1 justify-center items-center">
-      <button>hola</button>
+      {userIsLogged ? (
+        <div className="flex flex-col gap-3">
+          <Button className="btn-primary" onClick={onCreateGame}>{t("create_game")}</Button>
+          <Button className="btn-primary">{t("join_game")}</Button>
+          <Button className="btn-outlined" onClick={onLogout}>{t("logout")}</Button>
+
+        </div>
+      ) : (
+        <div className="flex flex-col gap-3">
+          <GoogleLoginButton
+            onClick={() => onLogin(GoogleAuthProvider.PROVIDER_ID)}
+          />
+          <GithubLoginButton
+            onClick={() => onLogin(GithubAuthProvider.PROVIDER_ID)}
+          />
+        </div>
+      )}
     </div>
-  )
+  );
 }
