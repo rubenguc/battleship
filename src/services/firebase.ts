@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 
 const {
   VITE_FIREBASE_API_KEY,
@@ -19,3 +20,23 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
+export const githubProvider = new GithubAuthProvider();
+
+export const supportedPopupSignInMethods = [
+  GoogleAuthProvider.PROVIDER_ID,
+  GithubAuthProvider.PROVIDER_ID,
+];
+
+export const getProvider = (providerId: string) => {
+  switch (providerId) {
+    case GoogleAuthProvider.PROVIDER_ID:
+      return googleProvider;
+    case GithubAuthProvider.PROVIDER_ID:
+      return githubProvider;
+
+    default:
+      throw new Error(`No provider implemented for ${providerId}`);
+  }
+};
