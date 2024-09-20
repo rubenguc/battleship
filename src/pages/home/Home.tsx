@@ -7,6 +7,7 @@ import { GithubLoginButton, GoogleLoginButton } from "./components";
 import { Button } from "@headlessui/react";
 import { useHome } from "./hooks";
 import { useTranslation } from "react-i18next";
+import JoinGame from "./components/JoinGame";
 
 export default function Home() {
   const { t } = useTranslation("home")
@@ -18,7 +19,7 @@ export default function Home() {
       {userIsLogged ? (
         <div className="flex flex-col gap-3">
           <Button className="btn-primary" onClick={onCreateGame}>{t("create_game")}</Button>
-          <Button className="btn-primary">{t("join_game")}</Button>
+          <JoinGame />
           <Button className="btn-outlined" onClick={onLogout}>{t("logout")}</Button>
 
         </div>
