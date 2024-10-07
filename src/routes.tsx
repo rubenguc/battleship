@@ -14,8 +14,8 @@ const rootRoute = createRootRoute({
             <Link to="/" className="[&.active]:font-bold">
               Home
             </Link>{' '}
-            <Link to="/profile" className="[&.active]:font-bold">
-              Profile
+            <Link to="/waiting-room" className="[&.active]:font-bold">
+              waiting room
             </Link>
             <Link to="/fleeFormation" className="[&.active]:font-bold">
               Flee
