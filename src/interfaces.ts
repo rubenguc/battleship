@@ -12,6 +12,7 @@ export interface Room {
   isOver: boolean;
   id: string;
   roomMasterId: string;
+  isStarted: boolean;
 }
 
 export interface Player {
@@ -20,6 +21,20 @@ export interface Player {
     name: string;
     image: string;
   };
+  isFleetReady: boolean;
   moves: number[];
-  fleeFormation: any[];
+  fleeFormation: ShipInPosition[];
+}
+
+export interface Ship {
+  size: number;
+}
+
+export interface ShipInPosition extends Ship {
+  col: number;
+  row: number;
+}
+
+export interface ShipFormation {
+  [key: number]: ShipInPosition;
 }

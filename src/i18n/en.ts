@@ -15,4 +15,11 @@ export default {
     start_game: "Start game",
     confirm: "Confirm",
   },
+  fleetFormation: {
+    fleet_formation: "Fleet formation",
+    finish: "Finish",
+    confirm_fleet_formation: "Confirm fleet formation",
+    confirm: "Confirm",
+    waiting_for_other_player: "Waiting for other player",
+  },
 };

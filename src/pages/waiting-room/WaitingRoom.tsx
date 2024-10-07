@@ -6,7 +6,7 @@ import ExitButton from "./components/ExitButton";
 
 export default function WaitingRoom() {
   const { t } = useTranslation("waitingRoom");
-  const { roomId, players, isRoomMaster } = useWaitingRoom();
+  const { roomId, players, isRoomMaster, startGame } = useWaitingRoom();
 
 
   return (
@@ -26,7 +26,7 @@ export default function WaitingRoom() {
           <ExitButton
             isRoomMaster={isRoomMaster}
           />
-          {isRoomMaster && <Button className="btn-primary">{t("start_game")}</Button>}
+          {isRoomMaster && <Button onClick={startGame} className="btn-primary">{t("start_game")}</Button>}
         </div>
       </div>
     </div>

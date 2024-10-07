@@ -47,6 +47,7 @@ export default function JoinGame() {
 
       await updateDoc(docRef, {
         player2: {
+          isFleetReady: false,
           id: user.id,
           data: {
             name: user.name,

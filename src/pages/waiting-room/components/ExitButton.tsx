@@ -20,7 +20,7 @@ export default function ExitButton({ isRoomMaster }: ExitButtonProps) {
       const docRef = doc(db, "room", room.id);
 
       if (!isRoomMaster) {
-        await Doc(docRef, {
+        await updateDoc(docRef, {
           player2: {},
         });
       } else {

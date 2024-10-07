@@ -37,6 +37,7 @@ export default function useHome() {
       await setDoc(doc(db, "room", roomId), {
         turn: 0,
         player1: {
+          isFleetReady: false,
           id: user.id,
           data: {
             name: user.name,
@@ -46,6 +47,7 @@ export default function useHome() {
           fleeFormation: [],
         },
         player2: {
+          isFleetReady: false,
           id: "",
           data: {},
           moves: [],
@@ -54,6 +56,7 @@ export default function useHome() {
         playerTurn: "",
         playerIdCreated: user.id,
         isOver: false,
+        isStarted: false,
       });
 
       setRoomId({
