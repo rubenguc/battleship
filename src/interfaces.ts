@@ -27,6 +27,7 @@ export interface Player {
 }
 
 export interface Ship {
+  id: number;
   size: number;
 }
 
