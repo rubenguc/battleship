@@ -5,8 +5,11 @@ import { useAuthContext } from "../../../providers/AuthProvider";
 import { customAlphabet } from "nanoid";
 import { doc, setDoc } from "firebase/firestore";
 import { useGameState } from "../../../state/gameState";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 export default function useHome() {
+  const { t } = useTranslation("home");
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const { setRoomId } = useGameState();
@@ -15,8 +18,8 @@ export default function useHome() {
     try {
       await signInWithPopup(auth, getProvider(provider));
     } catch (error) {
-      // TODO: missing catch
-      console.log("error:", error);
+      console.error(error);
+      toast.error(t("failed_to_login"));
     }
   };
 
@@ -24,8 +27,8 @@ export default function useHome() {
     try {
       await signOut(auth);
     } catch (error) {
-      // TODO: missing catch
-      console.log("error:", error);
+      console.error(error);
+      toast.error(t("failed_to_logout"));
     }
   };
 
@@ -33,6 +36,8 @@ export default function useHome() {
     try {
       const nanoid = customAlphabet("1234567890", 6);
       const roomId = nanoid();
+
+      const playerTurn = Math.random() < 0.5 ? "player1" : "player2";
 
       await setDoc(doc(db, "room", roomId), {
         turn: 0,
@@ -53,7 +58,7 @@ export default function useHome() {
           moves: [],
           fleeFormation: [],
         },
-        playerTurn: "",
+        playerTurn,
         playerIdCreated: user.id,
         isOver: false,
         isStarted: false,
@@ -64,13 +69,12 @@ export default function useHome() {
         roomMasterId: user.id,
       });
 
-      // TODO: firebase logic
       navigate({
         to: "/waiting-room",
       });
     } catch (error) {
-      // TODO: missing catch
-      console.log("error:", error);
+      console.error(error);
+      toast.error(t("failed_to_create_game"));
     }
   };
 

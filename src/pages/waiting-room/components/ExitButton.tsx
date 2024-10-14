@@ -4,6 +4,7 @@ import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useGameState } from "../../../state/gameState";
 import { db } from "../../../services/firebase";
 import { useNavigate } from "@tanstack/react-router";
+import toast from "react-hot-toast";
 
 interface ExitButtonProps {
   isRoomMaster: boolean;
@@ -24,16 +25,15 @@ export default function ExitButton({ isRoomMaster }: ExitButtonProps) {
           player2: {},
         });
       } else {
-        await deleteDoc(docRef)
+        await deleteDoc(docRef);
       }
-      //
 
       navigate({
         to: "/",
       });
     } catch (error) {
-      // TODO: catch error
-      console.log(error);
+      console.error(error);
+      toast.error(t("failed_to_exit"));
     }
   };
 

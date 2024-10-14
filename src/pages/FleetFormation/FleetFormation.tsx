@@ -24,8 +24,6 @@ const Board = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerIsReady, otherPlayerIsReady])
 
-  console.log("ships:", placedShips)
-
   return (
     <div className="flex flex-col items-center justify-center mx-auto">
       <h2 className="font-semibold text-xl mb-10">{t("fleet_formation")}</h2>

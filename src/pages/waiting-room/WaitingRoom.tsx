@@ -3,17 +3,38 @@ import useWaitingRoom from "./hooks/useWaitingRoom";
 import WaitingPlayer from "./components/WaitingPlayer";
 import { Button } from "@headlessui/react";
 import ExitButton from "./components/ExitButton";
+import { BsCopy } from "react-icons/bs";
+import { useCopyToClipboard } from "react-use";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 export default function WaitingRoom() {
   const { t } = useTranslation("waitingRoom");
   const { roomId, players, isRoomMaster, startGame } = useWaitingRoom();
 
+  const [state, copyToClipboard] = useCopyToClipboard();
+
+  useEffect(() => {
+
+    if (state.error) {
+      toast.error(t("failed_to_copy_code"))
+    }
+
+    if (state.value) {
+      toast.success(t("room_code_copied"),)
+    }
+
+  }, [state])
+
 
   return (
     <div className="flex flex-1 items-center justify-center">
-      <div className="rounded shadow p-2">
-        <p>
-          {t("room_code")}: {roomId}
+      <div className="rounded shadow border p-4">
+        <p className="flex item-center gap-2">
+          {t("room_code")}: <button className="flex items-center gap-2" onClick={() => copyToClipboard(roomId)}>
+            <span className="font-bold">{roomId}</span>
+            <BsCopy />
+          </button>
         </p>
 
         <div className="flex flex-col gap-5 mt-10">

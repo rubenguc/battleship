@@ -13,6 +13,7 @@ export interface Room {
   id: string;
   roomMasterId: string;
   isStarted: boolean;
+  winner: string;
 }
 
 export interface Player {
@@ -22,8 +23,13 @@ export interface Player {
     image: string;
   };
   isFleetReady: boolean;
-  moves: number[];
-  fleeFormation: ShipInPosition[];
+  moves: Move[];
+  fleeFormation: ShipFormation;
+}
+
+export interface Move {
+  cell: string;
+  result: "hit" | "miss";
 }
 
 export interface Ship {

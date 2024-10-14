@@ -12,6 +12,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useAuthContext } from "../../../providers/AuthProvider";
 import { useGameState } from "../../../state/gameState";
 import { CustomDialog } from "../../../components";
+import toast from "react-hot-toast";
 
 
 
@@ -26,24 +27,22 @@ export default function JoinGame() {
 
   const searchGame = async () => {
     try {
-      //
-
       const docRef = doc(db, "room", search);
 
       const snapshot = await getDoc(docRef);
       const roomExists = snapshot.exists();
 
-      if (!roomExists) return; // TODO: throw error
+      if (!roomExists) return toast.error(t("room_dont_exist"));
 
       const data = snapshot.data() as Room;
 
       const alreadyHasTwoPlayers = !!data.player2.id;
 
-      if (alreadyHasTwoPlayers) return; // TODO: throw error
+      if (alreadyHasTwoPlayers) return toast.error(t("room_is_full"));
 
       const isEnded = data.isOver;
 
-      if (isEnded) return; // TODO: throw error
+      if (isEnded) return toast.error(t("room_already_ended"));
 
       await updateDoc(docRef, {
         player2: {
@@ -66,8 +65,8 @@ export default function JoinGame() {
         to: "/waiting-room",
       });
     } catch (error) {
-      // TODO: catch error
-      console.log(error);
+      console.error(error);
+      toast.error(t("failed_to_find_room"))
     }
   };
 
@@ -85,6 +84,7 @@ export default function JoinGame() {
         title={t("set_room_code")}
         Body={
           <Input
+            className="border border-gray-600 w-full p-2 rounded"
             value={search}
             onChange={({ target }) => setSearch(target.value)}
           />

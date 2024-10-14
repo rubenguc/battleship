@@ -29,6 +29,7 @@ export const DEFAULT_ROOM: Room = {
   playerTurn: "",
   id: "",
   isStarted: false,
+  winner: "",
 };
 
 interface createRoom {
@@ -41,6 +42,7 @@ interface GameState {
   setRoomId: (data: createRoom) => void;
   updateRoom: (room: Room) => void;
   startGame: () => void;
+  clear: () => void;
 }
 
 export const useGameState = create<GameState>()(
@@ -67,6 +69,10 @@ export const useGameState = create<GameState>()(
             ...state.room,
             ...room,
           },
+        })),
+      clear: () =>
+        set(() => ({
+          room: DEFAULT_ROOM,
         })),
     }),
     {

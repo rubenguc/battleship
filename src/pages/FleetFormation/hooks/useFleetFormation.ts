@@ -6,12 +6,17 @@ import { useAuthContext } from "../../../providers/AuthProvider";
 import { useGameState } from "../../../state/gameState";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../services/firebase";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 export default function useFleetFormation() {
-  const [placedShips, setPlacedShips] = useState<ShipFormation>(initShips());
+  const { t } = useTranslation("fleetFormation");
 
   const { user } = useAuthContext();
   const { room } = useGameState();
+
+  const [placedShips, setPlacedShips] = useState<ShipFormation>(initShips());
+
   const isRoomMaster = user.id === room.roomMasterId;
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -86,8 +91,8 @@ export default function useFleetFormation() {
         [`${playerKey}.isFleetReady`]: true,
       });
     } catch (error) {
-      // TODO: catch error
-      console.log("error:", error);
+      console.error(error);
+      toast.error(t("failed_to_send_fleet_formaiton"));
     }
   };
 

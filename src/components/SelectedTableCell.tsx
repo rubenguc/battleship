@@ -2,10 +2,11 @@ import { useState } from "react";
 
 interface SelectedTableCellProps {
   isSelected: boolean;
+  isHitted: boolean;
   onSelected: () => void
 }
 
-export default function SelectedTableCell({ isSelected, onSelected }: SelectedTableCellProps) {
+export default function SelectedTableCell({ isSelected, isHitted, onSelected }: SelectedTableCellProps) {
   const [showHover, setShowHover] = useState(false);
 
 
@@ -22,7 +23,7 @@ export default function SelectedTableCell({ isSelected, onSelected }: SelectedTa
     >
       {
         (showHover || isSelected) && (
-          <div className="absolute top-0 left-0 w-full h-full bg-yellow-300 z-50 rounded-full"></div>
+          <div className={`absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full ${isHitted ? "bg-red-500" : "bg-yellow-300"} z-50 scale-75 rounded-full`}></div>
         )
       }
     </div>
