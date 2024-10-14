@@ -26,7 +26,7 @@ const hasPlayerWon = (fleetFormation: ShipFormation, playerMoves: Move[]) => {
 };
 
 export default function useGame() {
-  const { t } = useTranslation(game);
+  const { t } = useTranslation("game");
   const navigate = useNavigate();
   const { room, clear } = useGameState();
   const { user } = useAuthContext();
@@ -37,29 +37,31 @@ export default function useGame() {
   const player = isRoomCreator ? "player1" : "player2";
   const rivalPlayer = !isRoomCreator ? "player1" : "player2";
 
-  const placedShips = room[player].fleeFormation;
+  const placedShips = room[player].fleetFormation;
   const moves = room[player].moves;
   const rivalMoves = room[rivalPlayer].moves;
 
   const onSelectCell = async (cellKey: string) => {
     toggleLoading();
     try {
-      const isHit = Object.keys(room[rivalPlayer].fleeFormation).some((key) => {
-        const position = room[rivalPlayer].fleeFormation[key];
+      const isHit = Object.keys(room[rivalPlayer].fleetFormation).some(
+        (key) => {
+          const position = room[rivalPlayer].fleetFormation[key];
 
-        const [row, col] = cellKey.split("-");
+          const [row, col] = cellKey.split("-");
 
-        const move = {
-          row: Number(row),
-          col: Number(col),
-        };
+          const move = {
+            row: Number(row),
+            col: Number(col),
+          };
 
-        return (
-          move.row === position.row &&
-          move.col >= position.col &&
-          move.col < position.col + position.size
-        );
-      });
+          return (
+            move.row === position.row &&
+            move.col >= position.col &&
+            move.col < position.col + position.size
+          );
+        }
+      );
 
       const docRef = doc(db, "room", room.id);
 
@@ -97,8 +99,8 @@ export default function useGame() {
       try {
         const player1Moves = room.player1.moves;
         const player2Moves = room.player2.moves;
-        const player1Fleet = room.player1.fleeFormation;
-        const player2Fleet = room.player2.fleeFormation;
+        const player1Fleet = room.player1.fleetFormation;
+        const player2Fleet = room.player2.fleetFormation;
 
         const player1Won = hasPlayerWon(player2Fleet, player1Moves);
         const player2Won = hasPlayerWon(player1Fleet, player2Moves);

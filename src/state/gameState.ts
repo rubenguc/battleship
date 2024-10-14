@@ -12,7 +12,7 @@ export const DEFAULT_ROOM: Room = {
       image: "",
       name: "",
     },
-    fleeFormation: [],
+    fleetFormation: [],
     moves: [],
   },
   player2: {
@@ -22,7 +22,7 @@ export const DEFAULT_ROOM: Room = {
       image: "",
       name: "",
     },
-    fleeFormation: [],
+    fleetFormation: [],
     moves: [],
   },
   isOver: false,

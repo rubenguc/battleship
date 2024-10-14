@@ -44,7 +44,7 @@ export default function useWaitingRoom() {
   }, [room]);
 
   useEffect(() => {
-    if (isGameStarted) navigate({ to: "/fleeFormation" });
+    if (isGameStarted) navigate({ to: "/fleetFormation" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGameStarted]);
 

@@ -24,7 +24,7 @@ export interface Player {
   };
   isFleetReady: boolean;
   moves: Move[];
-  fleeFormation: ShipFormation;
+  fleetFormation: ShipFormation;
 }
 
 export interface Move {

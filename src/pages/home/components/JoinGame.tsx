@@ -53,7 +53,7 @@ export default function JoinGame() {
             image: user.photoURL,
           },
           moves: [],
-          fleeFormation: [],
+          fleetFormation: [],
         },
       });
 

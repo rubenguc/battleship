@@ -1,70 +1,134 @@
-import { createRootRoute, createRoute, createRouter, Link, Outlet } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Outlet,
+  redirect,
+} from "@tanstack/react-router";
 import { FleetFormation, Game, Home, WaitingRoom } from "./pages";
-import { useAuthContext } from "./providers/AuthProvider";
-
+import Header from "./components/Header";
+import { getRoomStatus } from "./utils/room";
 
 const rootRoute = createRootRoute({
   component: () => {
-    const { user, userIsLogged } = useAuthContext()
-
     return (
       <>
-        <div className="p-2 flex justify-between">
-          <div className="p-2 flex gap-3">
-            <Link to="/" className="[&.active]:font-bold">
-              Home
-            </Link>{' '}
-            <Link to="/waiting-room" className="[&.active]:font-bold">
-              waiting room
-            </Link>
-            <Link to="/fleeFormation" className="[&.active]:font-bold">
-              Flee
-            </Link>
-            <Link to="/game" className="[&.active]:font-bold">
-              Game
-            </Link>
-          </div>
-          {
-            userIsLogged && (
-              <div className="flex items-center gap-2">
-                <img src={user!.photoURL} width={40} height={40} className="rounded-full" />
-                <span>{user!.name}</span>
-              </div>
-            )
-          }
-        </div>
+        <Header />
         <hr />
         <Outlet />
       </>
-    )
-
-  }
-})
+    );
+  },
+});
 
 const homeRoute = createRoute({
+  beforeLoad: async ({ context }) => {
+    const { room } = context;
+
+    const { isCreated, fleetsAreReady, isOver, isStarted } =
+      getRoomStatus(room);
+
+
+    if (isCreated && !isOver) {
+      if (!isStarted) {
+        throw redirect({
+          to: "/waiting-room",
+        });
+      } else if (isStarted && !fleetsAreReady) {
+        throw redirect({
+          to: "/fleetFormation",
+        });
+      } else {
+        throw redirect({
+          to: "/game",
+        });
+      }
+    }
+  },
   getParentRoute: () => rootRoute,
   path: "/",
-  component: Home
+  component: Home,
 });
 
 const waitingRoomRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    const { room } = context;
+
+    const { isCreated, fleetsAreReady, isOver, isStarted } =
+      getRoomStatus(room);
+
+    if (!isCreated || isOver) {
+      throw redirect({
+        to: "/",
+      });
+    } else if (isStarted && !fleetsAreReady) {
+      throw redirect({
+        to: "/fleetFormation",
+      });
+    } else if (fleetsAreReady) {
+      throw redirect({
+        to: "/game",
+      });
+    }
+  },
   getParentRoute: () => rootRoute,
   path: "/waiting-room",
-  component: WaitingRoom
-})
+  component: WaitingRoom,
+});
 
-const fleeFormationRoute = createRoute({
+const fleetFormationRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    const { room } = context;
+
+    const { isCreated, fleetsAreReady, isOver, isStarted } =
+      getRoomStatus(room);
+
+    if (!isCreated || isOver) {
+      throw redirect({
+        to: "/",
+      });
+    } else if (isStarted && fleetsAreReady) {
+      throw redirect({
+        to: "/game",
+      });
+    }
+  },
   getParentRoute: () => rootRoute,
-  path: '/fleeFormation',
-  component: FleetFormation
-})
+  path: "/fleetFormation",
+  component: FleetFormation,
+});
 
 const gameRoute = createRoute({
+  beforeLoad: ({ context }) => {
+    const { room } = context;
+
+    const { isCreated, isOver, fleetsAreReady, isStarted } =
+      getRoomStatus(room);
+
+    if (!isCreated || isOver) {
+      throw redirect({
+        to: "/",
+      });
+    } else if (isStarted && !fleetsAreReady) {
+      throw redirect({
+        to: "/fleetFormation",
+      });
+    } else if (!isStarted) {
+      throw redirect({
+        to: "/waiting-room",
+      });
+    }
+  },
   getParentRoute: () => rootRoute,
-  path: '/game',
-  component: Game
-})
+  path: "/game",
+  component: Game,
+});
 
-const routeTree = rootRoute.addChildren([homeRoute, waitingRoomRoute, fleeFormationRoute, gameRoute])
+const routeTree = rootRoute.addChildren([
+  homeRoute,
+  waitingRoomRoute,
+  fleetFormationRoute,
+  gameRoute,
+]);
 
-export const router = createRouter({ routeTree })
+export const router = createRouter({ routeTree });

@@ -87,7 +87,7 @@ export default function useFleetFormation() {
       const docRef = doc(db, "room", room.id);
 
       await updateDoc(docRef, {
-        [`${playerKey}.fleeFormation`]: placedShips,
+        [`${playerKey}.fleetFormation`]: placedShips,
         [`${playerKey}.isFleetReady`]: true,
       });
     } catch (error) {
