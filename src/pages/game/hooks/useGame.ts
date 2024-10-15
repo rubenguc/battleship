@@ -13,7 +13,7 @@ const hasPlayerWon = (fleetFormation: ShipFormation, playerMoves: Move[]) => {
   const allPlayerMoves = playerMoves.map((pm) => pm.cell);
 
   return Object.keys(fleetFormation).every((key) => {
-    const fleet = fleetFormation[key];
+    const fleet = fleetFormation[Number(key)];
 
     const occupiedCellByFleet = [];
 
@@ -46,7 +46,7 @@ export default function useGame() {
     try {
       const isHit = Object.keys(room[rivalPlayer].fleetFormation).some(
         (key) => {
-          const position = room[rivalPlayer].fleetFormation[key];
+          const position = room[rivalPlayer].fleetFormation[Number(key)];
 
           const [row, col] = cellKey.split("-");
 

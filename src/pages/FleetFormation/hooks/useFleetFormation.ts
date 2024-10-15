@@ -73,7 +73,7 @@ export default function useFleetFormation() {
 
   const isCellOccupied = ({ row, col }: { col: number; row: number }) => {
     return Object.keys(placedShips).some((key) => {
-      const ship = placedShips[key];
+      const ship = placedShips[Number(key)];
 
       return ship.row === row && col >= ship.col && col < ship.col + ship.size;
     });

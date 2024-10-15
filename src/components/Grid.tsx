@@ -3,10 +3,10 @@ import Ship from "./Ship";
 import Cell from "./Cell";
 import SelectedTableCell from "./SelectedTableCell";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { Move } from "../interfaces";
+import { Move, ShipFormation } from "../interfaces";
 
 interface GridProps {
-  placedShips?: any;
+  placedShips?: ShipFormation;
   cellCanBeSelected?: boolean;
   handleDragEnd?: (event: DragEndEvent) => void;
   areFloatsDraggable?: boolean;
@@ -25,7 +25,7 @@ export default function Grid({
   // TODO: move to utils
   const isCellOccupied = ({ row, col }: { col: number; row: number }) => {
     return Object.keys(placedShips || {}).some((key) => {
-      const ship = placedShips?.[key];
+      const ship = placedShips![Number(key)];
 
       return ship.row === row && col >= ship.col && col < ship.col + ship.size;
     });
@@ -45,7 +45,7 @@ export default function Grid({
         <div className="h-10  col-span-11 grid grid-cols-11 w-full" >
           {
             Object.keys(LETTERS).map(key => (
-              <span key={key} className="flex items-center justify-center">{LETTERS[key]}</span>
+              <span key={key} className="flex items-center justify-center">{LETTERS[Number(key)]}</span>
             ))
           }
         </div>
@@ -83,7 +83,7 @@ export default function Grid({
               key={index.toString()}
               id={index.toString()}
               size={ship.size}
-              position={placedShips[index.toString()]}
+              position={placedShips[index]}
             />
           ))}
         </div>

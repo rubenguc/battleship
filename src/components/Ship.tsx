@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { CSSProperties, PropsWithChildren } from 'react';
 import { useDraggable } from '@dnd-kit/core';
 
 interface ShipProps extends PropsWithChildren {
@@ -17,9 +17,8 @@ export default function Ship({ isDraggable = true, id, size, position }: ShipPro
     disabled: !isDraggable
   });
 
-  // Aplicar la posición absoluta si el barco está colocado en el tablero
-  const style = {
-    width: `${size * 44}px`, // Ajusta el ancho del barco según su tamaño
+  const style: CSSProperties = {
+    width: `${size * 44}px`,
     height: "40px",
     position: "absolute",
     left: position ? `${position.col * 45}px` : "initial",

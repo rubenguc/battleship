@@ -43,5 +43,5 @@ export interface ShipInPosition extends Ship {
 }
 
 export interface ShipFormation {
-  [key: number]: ShipInPosition;
+  [key: number | string]: ShipInPosition;
 }

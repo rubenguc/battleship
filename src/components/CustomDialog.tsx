@@ -20,7 +20,7 @@ export default function CustomDialog({
       open={isOpen}
       as="div"
       className="relative z-10 focus:outline-none"
-      onClose={onClose}
+      onClose={() => onClose?.()}
     >
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/30">
         <div className="flex min-h-full items-center justify-center p-4">

@@ -8,6 +8,7 @@ import {
 import { FleetFormation, Game, Home, WaitingRoom } from "./pages";
 import Header from "./components/Header";
 import { getRoomStatus } from "./utils/room";
+import { Room } from "./interfaces";
 
 const rootRoute = createRootRoute({
   component: () => {
@@ -23,7 +24,7 @@ const rootRoute = createRootRoute({
 
 const homeRoute = createRoute({
   beforeLoad: async ({ context }) => {
-    const { room } = context;
+    const { room } = context as { room: Room };
 
     const { isCreated, fleetsAreReady, isOver, isStarted } =
       getRoomStatus(room);
@@ -52,7 +53,7 @@ const homeRoute = createRoute({
 
 const waitingRoomRoute = createRoute({
   beforeLoad: ({ context }) => {
-    const { room } = context;
+    const { room } = context as { room: Room };
 
     const { isCreated, fleetsAreReady, isOver, isStarted } =
       getRoomStatus(room);
@@ -78,7 +79,7 @@ const waitingRoomRoute = createRoute({
 
 const fleetFormationRoute = createRoute({
   beforeLoad: ({ context }) => {
-    const { room } = context;
+    const { room } = context as { room: Room };
 
     const { isCreated, fleetsAreReady, isOver, isStarted } =
       getRoomStatus(room);
@@ -100,7 +101,7 @@ const fleetFormationRoute = createRoute({
 
 const gameRoute = createRoute({
   beforeLoad: ({ context }) => {
-    const { room } = context;
+    const { room } = context as { room: Room };
 
     const { isCreated, isOver, fleetsAreReady, isStarted } =
       getRoomStatus(room);
@@ -131,4 +132,6 @@ const routeTree = rootRoute.addChildren([
   gameRoute,
 ]);
 
-export const router = createRouter({ routeTree });
+export const router = createRouter({
+  routeTree
+});
