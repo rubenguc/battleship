@@ -6,7 +6,8 @@ export default function Header() {
 
   return (
     <>
-      <div className="p-2 flex justify-end">
+      <div className="p-2 flex justify-between">
+        <img src="/icon.svg" width={40} />
         {/* <div className="p-2 flex gap-3">
           <Link to="/" className="[&.active]:font-bold">
             Home

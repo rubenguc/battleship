@@ -1,5 +1,6 @@
 export default {
   home: {
+    title: "Battleship",
     login_with_google: "Login with google",
     login_with_github: "Login with github",
     create_game: "Create game",

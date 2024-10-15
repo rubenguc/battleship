@@ -15,7 +15,10 @@ export default function Home() {
   const { onCreateGame, onLogin, onLogout } = useHome()
 
   return (
-    <div className="flex flex-1 justify-center items-center">
+    <div className="flex flex-col flex-1 justify-center items-center -mt-40">
+      <img src={"/assets/logo.png"} width={300} className="-mb-14" />
+      <h1 className="mb-10 text-6xl font-bold uppercase">{t("battleship")}</h1>
+
       {userIsLogged ? (
         <div className="flex flex-col gap-3">
           <Button className="btn-primary" onClick={onCreateGame}>{t("create_game")}</Button>
