@@ -23,11 +23,17 @@ export const initShips = (): ShipFormation => {
       ...ship,
       col: 0,
       row: index,
+      position: SHIP_POSITION.HORIZONTAL,
     };
   });
 
   return _ships;
 };
+
+export enum SHIP_POSITION {
+  VERTICAL = "vertical",
+  HORIZONTAL = "horizontal",
+}
 
 export const ROWS = Array.from({ length: 10 });
 export const COLUMNS = Array.from({ length: 10 });

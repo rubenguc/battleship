@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { ShipFormation } from "../../../interfaces";
-import { initShips } from "../../../constants";
+import { initShips, SHIP_POSITION } from "../../../constants";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useAuthContext } from "../../../providers/AuthProvider";
 import { useGameState } from "../../../state/gameState";
@@ -29,6 +29,49 @@ export default function useFleetFormation() {
     if (over && ship) {
       const [row, col] = over.id.toString().split("-").map(Number);
 
+      let isInSamePlace = false;
+
+      for (let index = 0; index < ship.size; index++) {
+        const rowOccupiedByShip =
+          ship.row + (ship.position === SHIP_POSITION.VERTICAL ? index : 0);
+        const colOccupiedByShip =
+          ship.col + (ship.position === SHIP_POSITION.HORIZONTAL ? index : 0);
+
+        const isOccupied =
+          ship.position === SHIP_POSITION.VERTICAL
+            ? row <= rowOccupiedByShip && row >= ship.row
+            : col <= colOccupiedByShip && col >= ship.col;
+
+        isInSamePlace = isOccupied;
+      }
+
+      if (isInSamePlace) {
+        const newPosition =
+          ship.position === SHIP_POSITION.HORIZONTAL
+            ? SHIP_POSITION.VERTICAL
+            : SHIP_POSITION.HORIZONTAL;
+
+        const canPlaceShip = !checkOverlap({
+          row,
+          col,
+          size: ship.size,
+          shipId: ship.id,
+          position: newPosition,
+        });
+
+        if (!canPlaceShip) {
+          // TODO: toast error No se puede colocar el barco aquí, hay una superposición.
+          return null;
+        }
+
+        setPlacedShips((prevShips) => ({
+          ...prevShips,
+          [active.id]: { ...prevShips[shipId], position: newPosition },
+        }));
+
+        return null;
+      }
+
       const isInsideGrid = col + ship.size <= 10;
 
       if (!isInsideGrid) {
@@ -40,6 +83,7 @@ export default function useFleetFormation() {
         row,
         col,
         size: ship.size,
+        position: ship.position,
       });
 
       if (!canPlaceShip) {
@@ -58,32 +102,53 @@ export default function useFleetFormation() {
     size,
     row,
     col,
+    position,
+    shipId,
   }: {
     size: number;
     col: number;
     row: number;
+    position: SHIP_POSITION;
+    shipId?: number;
   }) => {
     for (let i = 0; i < size; i++) {
-      if (isCellOccupied({ row, col: col + i })) {
-        return true; // Hay superposición
+      if (isCellOccupied({ row, col, index: i, position, shipId })) {
+        return true;
       }
     }
-    return false; // No hay superposición
+    return false;
   };
 
-  const isCellOccupied = ({ row, col }: { col: number; row: number }) => {
-    return Object.keys(placedShips).some((key) => {
-      const ship = placedShips[Number(key)];
+  const isCellOccupied = ({
+    row,
+    col,
+    position,
+    index,
+    shipId,
+  }: {
+    col: number;
+    row: number;
+    position: SHIP_POSITION;
+    index: number;
+    shipId?: number;
+  }) => {
+    const _row = row + (position === SHIP_POSITION.VERTICAL ? index : 0);
+    const _col = col + (position === SHIP_POSITION.HORIZONTAL ? index : 0);
 
-      return ship.row === row && col >= ship.col && col < ship.col + ship.size;
+    return Object.keys(placedShips).some((key) => {
+      const ship = placedShips[key];
+
+      if (shipId && ship.id === shipId) return false;
+
+      return (
+        ship.row === _row && _col >= ship.col && _col < ship.col + ship.size
+      );
     });
   };
 
   const sendFleetFormation = async () => {
     try {
-      //
       const playerKey = isRoomMaster ? "player1" : "player2";
-
       const docRef = doc(db, "room", room.id);
 
       await updateDoc(docRef, {

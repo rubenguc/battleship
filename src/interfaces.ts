@@ -1,3 +1,5 @@
+import { SHIP_POSITION } from "./constants";
+
 export interface User {
   id: string;
   name: string;
@@ -40,6 +42,7 @@ export interface Ship {
 export interface ShipInPosition extends Ship {
   col: number;
   row: number;
+  position: SHIP_POSITION;
 }
 
 export interface ShipFormation {
