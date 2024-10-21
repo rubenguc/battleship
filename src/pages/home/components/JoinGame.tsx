@@ -9,11 +9,10 @@ import { useToggle } from "react-use";
 import { db } from "../../../services/firebase";
 import { Room } from "../../../interfaces";
 import { useNavigate } from "@tanstack/react-router";
-import { useAuthContext } from "../../../providers/AuthProvider";
+import { useAuthContext } from "@/providers/AuthProvider";
 import { useGameState } from "../../../state/gameState";
 import { CustomDialog } from "../../../components";
 import toast from "react-hot-toast";
-
 
 
 export default function JoinGame() {
@@ -84,6 +83,7 @@ export default function JoinGame() {
         title={t("set_room_code")}
         Body={
           <Input
+            data-testid="code-input"
             className="border border-gray-600 w-full p-2 rounded"
             value={search}
             onChange={({ target }) => setSearch(target.value)}

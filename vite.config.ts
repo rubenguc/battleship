@@ -12,6 +12,9 @@ export default defineConfig({
     globals: true,
     environment: "happy-dom",
     setupFiles: "./src/setupTests.ts",
+    coverage: {
+      include: ["src/**/*.ts", "src/**/*.tsx"],
+    },
   },
   resolve: {
     alias: {

@@ -24,6 +24,8 @@ vi.mock("firebase/auth", () => {
     GoogleAuthProvider: vi.fn().mockReturnValue({
       PROVIDER_ID: "google.com",
     }),
+    signInWithPopup: vi.fn(),
+    signOut: vi.fn(),
   };
 });
 
@@ -33,6 +35,7 @@ vi.mock("firebase/firestore", () => {
     doc: vi.fn(() => ({})),
     getDoc: vi.fn(() => ({})),
     updateDoc: vi.fn(() => ({})),
+    setDoc: vi.fn(() => ({})),
   };
 });
 

@@ -20,14 +20,13 @@ export default function Home() {
       <h1 className="mb-10 text-6xl font-bold uppercase">{t("battleship")}</h1>
 
       {userIsLogged ? (
-        <div className="flex flex-col gap-3">
+        <div data-testid="logged-buttons" className="flex flex-col gap-3">
           <Button className="btn-primary" onClick={onCreateGame}>{t("create_game")}</Button>
           <JoinGame />
           <Button className="btn-outlined" onClick={onLogout}>{t("logout")}</Button>
-
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div data-testid="login-buttons" className="flex flex-col gap-3">
           <GoogleLoginButton
             onClick={() => onLogin(GoogleAuthProvider.PROVIDER_ID)}
           />

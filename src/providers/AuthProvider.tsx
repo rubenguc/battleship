@@ -20,8 +20,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const subscriber = auth.onAuthStateChanged((snapshot) => {
       setUser({
         id: String(snapshot?.uid || ""),
-        name: snapshot?.displayName as string | "",
-        photoURL: snapshot?.photoURL as string | ""
+        name: snapshot?.displayName as string || "",
+        photoURL: snapshot?.photoURL as string || ""
       });
     });
     return subscriber
