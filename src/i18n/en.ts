@@ -37,10 +37,12 @@ export default {
   },
   game: {
     your_fleet: "Your fleet",
-    opponent_fleet: "Oppenent fleet",
+    opponent_fleet: "Opponent fleet",
     winner: "Winner",
     exit: "Exit",
     failed_selecting_cell: "Failed to selected cell",
     failed_to_determine_winner: "Failed to determine winner",
+    your_turn: "Your turn",
+    opponent_turn: "Opponent's turn",
   },
 };

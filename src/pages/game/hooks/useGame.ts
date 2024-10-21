@@ -79,11 +79,13 @@ export default function useGame() {
     toggleLoading();
   };
 
-  const canMakeMove = useMemo(() => {
-    const isPlayerTurn = room.playerTurn === player;
+  const isPlayerTurn = useMemo(() => {
+    return room.playerTurn === player;
+  }, [room, player]);
 
+  const canMakeMove = useMemo(() => {
     return isPlayerTurn && !isLoading;
-  }, [room, isLoading, player]);
+  }, [isPlayerTurn, isLoading]);
 
   const exit = () => {
     clear();
@@ -118,6 +120,7 @@ export default function useGame() {
         toast.error(t("failed_to_determine_winner"));
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [room]);
 
   return {
@@ -128,5 +131,6 @@ export default function useGame() {
     canMakeMove,
     winner,
     exit,
+    isPlayerTurn,
   };
 }

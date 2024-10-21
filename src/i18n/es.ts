@@ -42,5 +42,7 @@ export default {
     exit: "Salir",
     failed_selecting_cell: "Error al seleccionar la celda",
     failed_to_determine_winner: "Error al determinar el ganador",
+    your_turn: "Tu turno",
+    opponent_turn: "Turno del oponente",
   },
 };
