@@ -20,13 +20,13 @@ describe("Home", () => {
     }));
   });
 
-  it("it should render", () => {
+  it("should render", () => {
     const { container } = render(<Home />);
 
     expect(container).toBeDefined();
   });
 
-  it("it should show logged options", () => {
+  it("should show logged options", () => {
     const { getByTestId } = render(<Home />);
 
     const buttonsContainer = getByTestId("logged-buttons");
@@ -34,7 +34,7 @@ describe("Home", () => {
     expect(buttonsContainer).toBeDefined();
   });
 
-  it("it should call onCreateGame", () => {
+  it("should call onCreateGame", () => {
     const { getByText } = render(<Home />);
 
     const createGameButton = getByText("create_game");
@@ -44,7 +44,7 @@ describe("Home", () => {
     expect(useHomeMocks.onCreateGame).toHaveBeenCalled();
   });
 
-  it("it should call onLogout", () => {
+  it("should call onLogout", () => {
     const { getByText } = render(<Home />);
 
     const logOutGameButton = getByText("logout");
@@ -54,7 +54,7 @@ describe("Home", () => {
     expect(useHomeMocks.onLogout).toHaveBeenCalled();
   });
 
-  it("it should show login buttons", () => {
+  it("should show login buttons", () => {
     // @ts-expect-error --- only field needed
     vi.mocked(useAuthContext).mockReturnValue(() => ({
       userIsLogged: false,

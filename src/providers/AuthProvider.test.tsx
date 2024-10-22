@@ -20,7 +20,7 @@ describe("AuthProvider", () => {
     vi.unmock("./AuthProvider")
   })
 
-  it("it should render", () => {
+  it("should render", () => {
     const { getByTestId } = render(
       <AuthProvider>
         <MOCK_COMPONENT />

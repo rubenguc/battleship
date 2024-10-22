@@ -7,7 +7,7 @@ import { setDoc } from "firebase/firestore";
 
 describe("useHome", () => {
   describe("onLogin", () => {
-    it("it should call onLogin", () => {
+    it("should call onLogin", () => {
       const { result } = renderHook(() => useHome());
 
       result.current.onLogin(GoogleAuthProvider.PROVIDER_ID);
@@ -15,7 +15,7 @@ describe("useHome", () => {
       expect(signInWithPopup).toHaveBeenCalled();
     });
 
-    it("it should show error", async () => {
+    it("should show error", async () => {
       vi.mocked(signInWithPopup).mockRejectedValue("error");
 
       const { result } = renderHook(() => useHome());
@@ -29,7 +29,7 @@ describe("useHome", () => {
   });
 
   describe("onLogout", () => {
-    it("it should call onLogout", () => {
+    it("should call onLogout", () => {
       const { result } = renderHook(() => useHome());
 
       result.current.onLogout();
@@ -37,7 +37,7 @@ describe("useHome", () => {
       expect(signOut).toHaveBeenCalled();
     });
 
-    it("it should show error", async () => {
+    it("should show error", async () => {
       vi.mocked(signOut).mockRejectedValue("error");
 
       const { result } = renderHook(() => useHome());
@@ -51,7 +51,7 @@ describe("useHome", () => {
   });
 
   describe("onCreateGame", () => {
-    it("it should call onCreateGame", async () => {
+    it("should call onCreateGame", async () => {
       const { result } = renderHook(() => useHome());
 
       result.current.onCreateGame();
@@ -61,7 +61,7 @@ describe("useHome", () => {
       });
     });
 
-    it("it should show error", async () => {
+    it("should show error", async () => {
       vi.mocked(setDoc).mockRejectedValue("error");
 
       const { result } = renderHook(() => useHome());
