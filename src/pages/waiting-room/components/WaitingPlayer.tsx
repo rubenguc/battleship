@@ -1,8 +1,7 @@
-import { PropsWithChildren } from "react"
-import { Player, } from "../../../interfaces"
+import { Player, } from "@/interfaces"
 
 
-export default function WaitingPlayer({ data: { image, name }, id }: PropsWithChildren<Player>) {
+export default function WaitingPlayer({ data: { image, name }, id }: Player) {
 
   if (!id) return null
 

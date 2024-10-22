@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from "react";
-import { useGameState } from "../../../state/gameState";
-import { useAuthContext } from "../../../providers/AuthProvider";
+import { useGameState } from "@/state/gameState";
+import { useAuthContext } from "@/providers/AuthProvider";
 import { useNavigate } from "@tanstack/react-router";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../services/firebase";
+import { db } from "@/services/firebase";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -16,13 +16,14 @@ export default function useWaitingRoom() {
   const players = useMemo(() => {
     const data = [room.player1];
 
-    if (room.player2.id) data.push(room.player2);
+    if (room.player2?.id) data.push(room.player2);
 
     return data;
   }, [room]);
 
   const isRoomMaster = user.id === room.roomMasterId;
   const isGameStarted = room.isStarted;
+  const canStartGame = !!room.player2?.id;
 
   const startGame = async () => {
     try {
@@ -53,6 +54,6 @@ export default function useWaitingRoom() {
     players,
     isRoomMaster,
     startGame,
-    isGameStarted,
+    canStartGame,
   };
 }

@@ -10,18 +10,17 @@ import toast from "react-hot-toast";
 
 export default function WaitingRoom() {
   const { t } = useTranslation("waitingRoom");
-  const { roomId, players, isRoomMaster, startGame } = useWaitingRoom();
+  const { roomId, players, isRoomMaster, startGame, canStartGame } =
+    useWaitingRoom();
 
   const [state, copyToClipboard] = useCopyToClipboard();
 
   useEffect(() => {
-    if (state.error) {
-      toast.error(t("failed_to_copy_code"));
-    }
+    if (state.error) toast.error(t("failed_to_copy_code"));
 
-    if (state.value) {
-      toast.success(t("room_code_copied"));
-    }
+    if (state.value) toast.success(t("room_code_copied"));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   return (
@@ -30,6 +29,7 @@ export default function WaitingRoom() {
         <p className="flex item-center gap-2">
           {t("room_code")}:{" "}
           <button
+            data-testid="copy-code"
             className="flex items-center gap-2"
             onClick={() => copyToClipboard(roomId)}
           >
@@ -47,7 +47,12 @@ export default function WaitingRoom() {
         <div className="flex items-center gap-4 mt-5">
           <ExitButton isRoomMaster={isRoomMaster} />
           {isRoomMaster && (
-            <Button onClick={startGame} className="btn-primary">
+            <Button
+              data-testid="start-game-button"
+              disabled={!canStartGame}
+              onClick={startGame}
+              className="btn-primary"
+            >
               {t("start_game")}
             </Button>
           )}

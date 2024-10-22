@@ -36,6 +36,7 @@ vi.mock("firebase/firestore", () => {
     getDoc: vi.fn(() => ({})),
     updateDoc: vi.fn(() => ({})),
     setDoc: vi.fn(() => ({})),
+    deleteDoc: vi.fn(() => ({})),
   };
 });
 
@@ -46,7 +47,7 @@ vi.mock("react-i18next", () => ({
 }));
 
 vi.mock("@tanstack/react-router", () => ({
-  useNavigate: () => vi.fn(),
+  useNavigate: vi.fn().mockImplementation(() => vi.fn()),
 }));
 
 vi.mock("react-hot-toast", () => ({

@@ -29,7 +29,7 @@ export default function ButtonWithModal({ onConfirmAction, text, modalTitle, con
         onClose={toggle}
         title={modalTitle}
         Footer={
-          <Button className="btn-primary" onClick={_onConfirmAction}>
+          <Button data-testid="confirm-button" className="btn-primary" onClick={_onConfirmAction}>
             {confirmButtonText}
           </Button>
         }
