@@ -21,7 +21,7 @@ export default function ButtonWithModal({ onConfirmAction, text, modalTitle, con
 
   return (
     <>
-      <Button className="btn-outlined" onClick={toggle} disabled={isDisabled}>
+      <Button data-testid="button-with-modal" className="btn-outlined" onClick={toggle} disabled={isDisabled}>
         {text}
       </Button>
       <CustomDialog

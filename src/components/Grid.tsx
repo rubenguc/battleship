@@ -104,7 +104,7 @@ export default function Grid({
             ))
           )}
 
-          {placedShips &&
+          {Object.keys(placedShips || {}).length > 0 &&
             SHIPS.map((ship, index) => (
               <Ship
                 key={index.toString()}

@@ -2,7 +2,7 @@ import { ButtonWithModal } from "../../components";
 import { useTranslation } from "react-i18next";
 import useFleetFormation from "./hooks/useFleetFormation";
 import { useEffect } from "react";
-import { toast } from "react-hot-toast"
+import toast from "react-hot-toast"
 import { useNavigate } from "@tanstack/react-router";
 import Grid from "../../components/Grid";
 

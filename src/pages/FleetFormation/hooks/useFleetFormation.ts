@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
-import { ShipFormation } from "../../../interfaces";
-import { initShips, SHIP_POSITION } from "../../../constants";
+import { ShipFormation } from "@/interfaces";
+import { initShips, SHIP_POSITION } from "@/constants";
 import { DragEndEvent } from "@dnd-kit/core";
-import { useAuthContext } from "../../../providers/AuthProvider";
-import { useGameState } from "../../../state/gameState";
+import { useAuthContext } from "@/providers/AuthProvider";
+import { useGameState } from "@/state/gameState";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../services/firebase";
+import { db } from "@/services/firebase";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -26,64 +26,38 @@ export default function useFleetFormation() {
 
     const ship = placedShips[shipId];
 
-    if (over && ship) {
-      const [row, col] = over.id.toString().split("-").map(Number);
+    if (!over || !ship) return null;
 
-      let isInSamePlace = false;
+    const [row, col] = over.id.toString().split("-").map(Number);
 
-      for (let index = 0; index < ship.size; index++) {
-        const rowOccupiedByShip =
-          ship.row + (ship.position === SHIP_POSITION.VERTICAL ? index : 0);
-        const colOccupiedByShip =
-          ship.col + (ship.position === SHIP_POSITION.HORIZONTAL ? index : 0);
+    let isInSamePlace = false;
 
-        const isOccupied =
-          ship.position === SHIP_POSITION.VERTICAL
-            ? row <= rowOccupiedByShip && row >= ship.row
-            : col <= colOccupiedByShip && col >= ship.col;
+    for (let index = 0; index < ship.size; index++) {
+      const rowOccupiedByShip =
+        ship.row + (ship.position === SHIP_POSITION.VERTICAL ? index : 0);
+      const colOccupiedByShip =
+        ship.col + (ship.position === SHIP_POSITION.HORIZONTAL ? index : 0);
 
-        isInSamePlace = isOccupied;
-      }
+      const isOccupied =
+        ship.position === SHIP_POSITION.VERTICAL
+          ? row <= rowOccupiedByShip && row >= ship.row
+          : col <= colOccupiedByShip && col >= ship.col;
 
-      if (isInSamePlace) {
-        const newPosition =
-          ship.position === SHIP_POSITION.HORIZONTAL
-            ? SHIP_POSITION.VERTICAL
-            : SHIP_POSITION.HORIZONTAL;
+      isInSamePlace = isOccupied;
+    }
 
-        const canPlaceShip = !checkOverlap({
-          row,
-          col,
-          size: ship.size,
-          shipId: ship.id,
-          position: newPosition,
-        });
-
-        if (!canPlaceShip) {
-          // TODO: toast error No se puede colocar el barco aquí, hay una superposición.
-          return null;
-        }
-
-        setPlacedShips((prevShips) => ({
-          ...prevShips,
-          [active.id]: { ...prevShips[shipId], position: newPosition },
-        }));
-
-        return null;
-      }
-
-      const isInsideGrid = col + ship.size <= 10;
-
-      if (!isInsideGrid) {
-        // TODO: toast error El barco no cabe en esta posición.
-        return null;
-      }
+    if (isInSamePlace) {
+      const newPosition =
+        ship.position === SHIP_POSITION.HORIZONTAL
+          ? SHIP_POSITION.VERTICAL
+          : SHIP_POSITION.HORIZONTAL;
 
       const canPlaceShip = !checkOverlap({
         row,
         col,
         size: ship.size,
-        position: ship.position,
+        shipId: ship.id,
+        position: newPosition,
       });
 
       if (!canPlaceShip) {
@@ -93,9 +67,35 @@ export default function useFleetFormation() {
 
       setPlacedShips((prevShips) => ({
         ...prevShips,
-        [active.id]: { ...prevShips[shipId], row, col },
+        [active.id]: { ...prevShips[shipId], position: newPosition },
       }));
+
+      return undefined;
     }
+
+    const isInsideGrid = col + ship.size <= 10;
+
+    if (!isInsideGrid) {
+      // TODO: toast error El barco no cabe en esta posición.
+      return null;
+    }
+
+    const canPlaceShip = !checkOverlap({
+      row,
+      col,
+      size: ship.size,
+      position: ship.position,
+    });
+
+    if (!canPlaceShip) {
+      // TODO: toast error No se puede colocar el barco aquí, hay una superposición.
+      return null;
+    }
+
+    setPlacedShips((prevShips) => ({
+      ...prevShips,
+      [active.id]: { ...prevShips[shipId], row, col },
+    }));
   };
 
   const checkOverlap = ({
@@ -176,7 +176,6 @@ export default function useFleetFormation() {
   return {
     handleDragEnd,
     sendFleetFormation,
-    isCellOccupied,
     placedShips,
     playerIsReady,
     otherPlayerIsReady,
