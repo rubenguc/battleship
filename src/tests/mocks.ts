@@ -1,4 +1,4 @@
-import { Player, Room } from "@/interfaces";
+import { Move, Player, Room } from "@/interfaces";
 
 export const MOCK_AUTH_USER_SNAPSHOT = {
   uid: "123",
@@ -29,3 +29,37 @@ export const MOCK_ROOM: Partial<Room> = {
   roomMasterId: MOCK_PLAYER1.id,
   isStarted: false,
 };
+
+export const MOCK_PLAYER1_MOVES: Move[] = [{ cell: "0-0", result: "hit" }];
+export const MOCK_PLAYER2_MOVES: Move[] = [{ cell: "5-5", result: "miss" }];
+
+export const MOCK_WINNER_MOVES = [
+  {
+    cell: "0-0",
+    result: "hit",
+  },
+  {
+    cell: "0-1",
+    result: "hit",
+  },
+  {
+    cell: "0-2",
+    result: "hit",
+  },
+  {
+    cell: "1-0",
+    result: "hit",
+  },
+  {
+    cell: "1-1",
+    result: "hit",
+  },
+  {
+    cell: "2-0",
+    result: "hit",
+  },
+  {
+    cell: "2-1",
+    result: "hit",
+  },
+];

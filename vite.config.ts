@@ -13,7 +13,8 @@ export default defineConfig({
     environment: "happy-dom",
     setupFiles: "./src/setupTests.ts",
     coverage: {
-      include: ["src/**/*.ts", "src/**/*.tsx"],
+      include: ["src/**/*.{ts,tsx}"], // Solo incluye archivos dentro de src
+      exclude: ["src/i18n", "**/*.test.tsx", "**/*.test.ts", "**/index.ts"],
     },
   },
   resolve: {

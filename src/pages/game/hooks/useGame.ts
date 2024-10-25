@@ -1,8 +1,8 @@
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { useAuthContext } from "../../../providers/AuthProvider";
-import { useGameState } from "../../../state/gameState";
-import { db } from "../../../services/firebase";
-import { Move, ShipFormation } from "../../../interfaces";
+import { useAuthContext } from "@/providers/AuthProvider";
+import { useGameState } from "@/state/gameState";
+import { db } from "@/services/firebase";
+import { Move, ShipFormation } from "@/interfaces";
 import { useEffect, useMemo } from "react";
 import { useToggle } from "react-use";
 import { useNavigate } from "@tanstack/react-router";

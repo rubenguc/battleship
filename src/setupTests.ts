@@ -31,6 +31,7 @@ vi.mock("firebase/auth", () => {
 
 vi.mock("firebase/firestore", () => {
   return {
+    arrayUnion: vi.fn(),
     getFirestore: vi.fn(() => ({})),
     doc: vi.fn(() => ({})),
     getDoc: vi.fn(() => ({})),

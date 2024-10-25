@@ -62,6 +62,10 @@ describe("FleetFormation", () => {
   })
 
   it('should redirect to /game', () => {
+    const navigate = vi.fn();
+
+    vi.mocked(useNavigate).mockReturnValue(navigate);
+
     vi.mocked(useFleetFormation).mockReturnValue({
       handleDragEnd: vi.fn(),
       sendFleetFormation: vi.fn(),
@@ -72,8 +76,8 @@ describe("FleetFormation", () => {
 
     render(<FleetFormation />);
 
-    const navigate = vi.fn();
-
-    vi.mocked(useNavigate).mockReturnValue(navigate);
+    expect(navigate).toHaveBeenCalledWith({
+      to: '/game'
+    })
   })
 });
