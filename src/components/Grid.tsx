@@ -110,7 +110,7 @@ export default function Grid({
                 key={index.toString()}
                 id={index.toString()}
                 size={ship.size}
-                position={placedShips[index]}
+                position={placedShips![index]}
               />
             ))}
         </div>

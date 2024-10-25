@@ -72,7 +72,15 @@ vi.mock("react-hot-toast", async () => {
 });
 
 vi.mock("@/providers/AuthProvider", async () => {
-  const { MOCK_AUTH_USER_SNAPSHOT } = await vi.importActual("./tests/mocks");
+  const { MOCK_AUTH_USER_SNAPSHOT } = (await vi.importActual(
+    "./tests/mocks"
+  )) as {
+    MOCK_AUTH_USER_SNAPSHOT: {
+      uid: string;
+      displayName: string;
+      photoURL: string;
+    };
+  };
   const provider = await vi.importActual("@/providers/AuthProvider");
 
   return {
