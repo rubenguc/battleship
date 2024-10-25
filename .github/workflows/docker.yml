@@ -7,11 +7,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      # required for all workflows
+      security-events: write
+
+      # required to fetch internal or private CodeQL packs
+      packages: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: javascript-typescript
+          build-mode: none
 
     steps:
       # 1. Check out the code
-      - name: Check out the code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       # 2. Configuración de Node.js e instalación de dependencias
       - name: Set up Node.js
@@ -31,12 +44,14 @@ jobs:
 
       # 4. Análisis de CodeQL
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
-          languages: typescript
+          languages: ${{ matrix.language }}
 
-      - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
 
       # 5. Log in to Docker Hub
       - name: Log in to Docker Hub
