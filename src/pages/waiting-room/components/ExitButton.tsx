@@ -5,6 +5,7 @@ import { useGameState } from "../../../state/gameState";
 import { db } from "../../../services/firebase";
 import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast";
+import { catchError } from "@/services/errors";
 
 interface ExitButtonProps {
   isRoomMaster: boolean;
@@ -32,7 +33,7 @@ export default function ExitButton({ isRoomMaster }: ExitButtonProps) {
         to: "/",
       });
     } catch (error) {
-      console.error(error);
+      catchError(error);
       toast.error(t("failed_to_exit"));
     }
   };

@@ -8,6 +8,7 @@ import { useToggle } from "react-use";
 import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { catchError } from "@/services/errors";
 
 const hasPlayerWon = (fleetFormation: ShipFormation, playerMoves: Move[]) => {
   const allPlayerMoves = playerMoves.map((pm) => pm.cell);
@@ -73,7 +74,7 @@ export default function useGame() {
         playerTurn: isHit ? player : rivalPlayer,
       });
     } catch (error) {
-      console.error("error:", error);
+      catchError(error);
       toast.error(t("failed_selecting_cell"));
     }
     toggleLoading();
@@ -116,7 +117,7 @@ export default function useGame() {
           });
         }
       } catch (error) {
-        console.error("error:", error);
+        catchError(error);
         toast.error(t("failed_to_determine_winner"));
       }
     })();

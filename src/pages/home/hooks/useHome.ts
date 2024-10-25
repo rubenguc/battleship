@@ -7,6 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useGameState } from "../../../state/gameState";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { catchError } from "@/services/errors";
 
 export default function useHome() {
   const { t } = useTranslation("home");
@@ -18,7 +19,7 @@ export default function useHome() {
     try {
       await signInWithPopup(auth, getProvider(provider));
     } catch (error) {
-      console.error(error);
+      catchError(error);
       toast.error(t("failed_to_login"));
     }
   };
@@ -27,7 +28,7 @@ export default function useHome() {
     try {
       await signOut(auth);
     } catch (error) {
-      console.error(error);
+      catchError(error);
       toast.error(t("failed_to_logout"));
     }
   };
@@ -73,7 +74,7 @@ export default function useHome() {
         to: "/waiting-room",
       });
     } catch (error) {
-      console.error(error);
+      catchError(error);
       toast.error(t("failed_to_create_game"));
     }
   };

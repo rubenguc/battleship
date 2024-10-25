@@ -8,6 +8,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { catchError } from "@/services/errors";
 
 export default function useFleetFormation() {
   const { t } = useTranslation("fleetFormation");
@@ -156,7 +157,7 @@ export default function useFleetFormation() {
         [`${playerKey}.isFleetReady`]: true,
       });
     } catch (error) {
-      console.error(error);
+      catchError(error);
       toast.error(t("failed_to_send_fleet_formaiton"));
     }
   };

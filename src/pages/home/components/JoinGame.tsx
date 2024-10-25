@@ -13,6 +13,7 @@ import { useAuthContext } from "@/providers/AuthProvider";
 import { useGameState } from "../../../state/gameState";
 import { CustomDialog } from "../../../components";
 import toast from "react-hot-toast";
+import { catchError } from "@/services/errors";
 
 
 export default function JoinGame() {
@@ -64,7 +65,7 @@ export default function JoinGame() {
         to: "/waiting-room",
       });
     } catch (error) {
-      console.error(error);
+      catchError(error);
       toast.error(t("failed_to_find_room"))
     }
   };
