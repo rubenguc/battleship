@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useAuthContext } from "../providers/AuthProvider";
-import { DEFAULT_ROOM, useGameState } from "../state/gameState";
+import { useAuthContext } from "@/providers/AuthProvider";
+import { DEFAULT_ROOM, useGameState } from "@/state/gameState";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../services/firebase";
-import { Room } from "../interfaces";
+import { db } from "@/services/firebase";
+import { Room } from "@/interfaces";
 
 export default function useGame() {
   const { user } = useAuthContext();
@@ -18,11 +18,8 @@ export default function useGame() {
 
     const unsuscribe = onSnapshot(q, (querySnapshot) => {
       const room = querySnapshot.data() as Room;
-      if (room) {
-        updateRoom(room);
-      } else {
-        updateRoom(DEFAULT_ROOM);
-      }
+
+      updateRoom(room || DEFAULT_ROOM);
     });
     return () => {
       unsuscribe();

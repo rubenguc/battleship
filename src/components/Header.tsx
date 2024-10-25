@@ -24,7 +24,7 @@ export default function Header() {
         </div> */}
         {
           userIsLogged && (
-            <div className="flex items-center gap-2">
+            <div data-testid="logged-user" className="flex items-center gap-2">
               <img src={user!.photoURL} width={40} height={40} className="rounded-full" />
               <span>{user!.name}</span>
             </div>

@@ -38,6 +38,7 @@ vi.mock("firebase/firestore", () => {
     updateDoc: vi.fn(() => ({})),
     setDoc: vi.fn(() => ({})),
     deleteDoc: vi.fn(() => ({})),
+    onSnapshot: vi.fn(() => ({})),
   };
 });
 
@@ -47,18 +48,28 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("@tanstack/react-router", () => ({
-  useNavigate: vi.fn().mockImplementation(() => vi.fn()),
-}));
+vi.mock("@tanstack/react-router", async () => {
+  const actual = await vi.importActual("@tanstack/react-router");
 
-vi.mock("react-hot-toast", () => ({
-  default: {
-    error: vi.fn(),
-    loading: vi.fn(),
-    dismiss: vi.fn(),
-    success: vi.fn(),
-  },
-}));
+  return {
+    ...actual,
+    useNavigate: vi.fn().mockImplementation(() => vi.fn()),
+  };
+});
+
+vi.mock("react-hot-toast", async () => {
+  const actual = await vi.importActual("react-hot-toast");
+
+  return {
+    ...actual,
+    default: {
+      error: vi.fn(),
+      loading: vi.fn(),
+      dismiss: vi.fn(),
+      success: vi.fn(),
+    },
+  };
+});
 
 vi.mock("@/providers/AuthProvider", async () => {
   const { MOCK_AUTH_USER_SNAPSHOT } = await vi.importActual("./tests/mocks");

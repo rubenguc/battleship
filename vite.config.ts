@@ -14,7 +14,16 @@ export default defineConfig({
     setupFiles: "./src/setupTests.ts",
     coverage: {
       include: ["src/**/*.{ts,tsx}"], // Solo incluye archivos dentro de src
-      exclude: ["src/i18n", "**/*.test.tsx", "**/*.test.ts", "**/index.ts"],
+      exclude: [
+        "src/i18n",
+        "**/*.test.tsx",
+        "**/*.test.ts",
+        "**/index.ts",
+        "src/interfaces.ts",
+        "src/main.tsx",
+        "src/routes.tsx",
+        "src/vite-env.d.ts",
+      ],
     },
   },
   resolve: {
