@@ -24,6 +24,12 @@ export default defineConfig({
         "src/routes.tsx",
         "src/vite-env.d.ts",
       ],
+      thresholds: {
+        statements: 90,
+        branches: 80,
+        functions: 80,
+        lines: 90,
+      },
     },
   },
   resolve: {
