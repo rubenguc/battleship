@@ -1,0 +1,51 @@
+name: Battleship CI/CD
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the code
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      # 2. Configuración de Node.js e instalación de dependencias
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      # 3. Ejecución de pruebas con cobertura
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      # 4. Análisis de CodeQL
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: typescript
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v2
+
+      # 5. Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 6. Build Docker image
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/battleship:latest .
+
+      # 7. Push Docker image
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/battleship:latest
