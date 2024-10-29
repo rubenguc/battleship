@@ -68,8 +68,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       
+      - name: Extract version from package.json
+        id: version
+        run: echo "PACKAGE_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/battleship:latest .
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/battleship:${{ env.PACKAGE_VERSION }} \
+                       -t ${{ secrets.DOCKER_USERNAME }}/battleship:latest .
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/battleship:latest
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/battleship:${{ env.PACKAGE_VERSION }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/battleship:latest
