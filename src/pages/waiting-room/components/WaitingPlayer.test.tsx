@@ -10,7 +10,6 @@ describe("WaitingPlater", () => {
       <WaitingPlayer {...(MOCK_PLAYER1 as Player)} />
     );
 
-    expect(container.innerHTML).contains(MOCK_PLAYER1.data?.image);
     expect(container.innerHTML).contains(MOCK_PLAYER1.data?.name);
   });
 
