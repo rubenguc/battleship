@@ -2,7 +2,7 @@ import { Player, } from "@/interfaces"
 import { RxAvatar } from "react-icons/rx"
 
 
-export default function WaitingPlayer({ data: { image, name }, id }: Player) {
+export default function WaitingPlayer({ data: { name }, id }: Player) {
 
   if (!id) return null
 
