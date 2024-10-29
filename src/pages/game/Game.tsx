@@ -26,7 +26,7 @@ export default function Game() {
   return (
     <div className="flex flex-1 flex-col gap-10 justify-center items-center -mt-20">
       <h2 data-testid="player-turn" className={`rounded-xl border p-2 ${isPlayerTurn ? "text-rose-600 border-rose-600" : "text-sky-600 border-sky-600"}`}>{t(isPlayerTurn ? "your_turn" : "opponent_turn")}</h2>
-      <div className="flex   gap-10  w-full ">
+      <div className="flex   gap-10">
         <div className="flex flex-col gap-2 items-center justify-center w-fit">
           <h3 className="py-2 bg-rose-600 text-white w-full text-center rounde md">{t("your_fleet")}</h3>
           <Grid

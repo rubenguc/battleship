@@ -1,4 +1,5 @@
 // import { Link } from '@tanstack/react-router'
+import { RxAvatar } from 'react-icons/rx'
 import { useAuthContext } from '../providers/AuthProvider'
 
 export default function Header() {
@@ -25,7 +26,8 @@ export default function Header() {
         {
           userIsLogged && (
             <div data-testid="logged-user" className="flex items-center gap-2">
-              <img src={user!.photoURL} width={40} height={40} className="rounded-full" />
+              <RxAvatar size={30} color="#55" />
+              {/* <img src={user!.photoURL} width={40} height={40} className="rounded-full" /> */}
               <span>{user!.name}</span>
             </div>
           )

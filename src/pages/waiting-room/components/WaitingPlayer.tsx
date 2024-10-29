@@ -1,4 +1,5 @@
 import { Player, } from "@/interfaces"
+import { RxAvatar } from "react-icons/rx"
 
 
 export default function WaitingPlayer({ data: { image, name }, id }: Player) {
@@ -7,7 +8,7 @@ export default function WaitingPlayer({ data: { image, name }, id }: Player) {
 
   return (
     <div className="flex items-center gap-2">
-      <img className="rounded-full h-10" src={image} alt={`player ${name} image`} width={40} height={40} />
+      <RxAvatar size={30} color="#55" />
       <p>{name}</p>
     </div>
   )

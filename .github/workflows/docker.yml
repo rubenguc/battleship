@@ -58,6 +58,11 @@ jobs:
   docker:
     needs: [test, codeql]
     runs-on: ubuntu-latest
+    if: |
+      startsWith(github.event.head_commit.message, 'feat') ||
+      startsWith(github.event.head_commit.message, 'fix') ||
+      startsWith(github.event.head_commit.message, 'refactor') ||
+      startsWith(github.event.head_commit.message, 'build')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
